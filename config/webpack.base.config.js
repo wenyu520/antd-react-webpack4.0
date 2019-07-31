@@ -22,7 +22,9 @@ const webpackConfigBase = {
     },
     resolve: {
         extensions: ['.js', '.json'],
-        alias: { },
+        alias: {
+            '@': path.join(__dirname, '../src')
+        },
     },
     resolveLoader: {
         moduleExtensions: ['-loader']

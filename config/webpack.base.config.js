@@ -38,7 +38,7 @@ const webpackConfigBase = {
                 loader: 'happypack/loader?id=happyBabel',
             },
             {
-                test: /\.(css|less|sass)$/,
+                test: /\.(less|scss)$/,
                 // exclude: /node_modules/,
                 include: [
                     resolve('../src/styles'),
@@ -47,6 +47,10 @@ const webpackConfigBase = {
                     resolve('../node_modules/draft-js'),
                 ],
                 loader: ExtractTextPlugin.extract({fallback: 'style', use: 'happypack/loader?id=happyStyle'}),
+            },
+            {
+                test: /\.css$/,
+                loader: ExtractTextPlugin.extract({fallback: 'style', use: 'happypack/loader?id=antdCss'})
             },
             {
                 test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
@@ -84,10 +88,26 @@ const webpackConfigBase = {
             verbose: true,
         }),
         new HappyPack({
+            id: 'antdCss',
+            loaders: [
+                {
+                    loader:'css-loader',
+                    options: {
+                        importLoaders: 1,
+                        sourceMap: true,
+                    },
+                },
+            ],
+        }),
+        new HappyPack({
             //用id来标识 happypack处理那里类文件
             id: 'happyStyle',
             //如何处理  用法和loader 的配置一样
-            loaders: [ 'css-loader?sourceMap=true', 'sass-loader?sourceMap=true' ],
+            loaders: [
+                'css-loader?sourceMap=true',
+                'sass-loader?sourceMap=true',
+                'less-loader?sourceMap=true',
+                ],
             //代表共享进程池，即多个 HappyPack 实例都使用同一个共享进程池中的子进程去处理任务，以防止资源占用过多。
             threadPool: happyThreadPool,
             //允许 HappyPack 输出日志

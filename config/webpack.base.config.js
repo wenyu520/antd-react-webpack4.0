@@ -40,20 +40,58 @@ const webpackConfigBase = {
                 loader: 'happypack/loader?id=happyBabel',
             },
             {
-                test: /\.(less|scss)$/,
-                // exclude: /node_modules/,
-                include: [
-                    resolve('../src/styles'),
-                    resolve('../src/components'),
-                    resolve('../node_modules/antd'),
-                    resolve('../node_modules/draft-js'),
-                ],
-                loader: ExtractTextPlugin.extract({fallback: 'style', use: 'happypack/loader?id=happyStyle'}),
-            },
-            {
-                test: /\.css$/,
-                loader: ExtractTextPlugin.extract({fallback: 'style', use: 'happypack/loader?id=antdCss'})
-            },
+                test: /\.(css|less)$/,
+                include: /src|public/,
+                use: [
+                  {
+                    loader: 'style-loader' 
+                  },
+                  {
+                    loader: 'css-loader',
+                    options: {
+                      modules: true,
+                      localIdentName: '[local]-[hash:8]',
+                    }
+                  }, {
+                    loader: 'less-loader',
+                    options: {
+                      modules: true,
+                      localIdentName: '[local]-[hash:8]',
+                      javascriptEnabled: true,
+                    }
+                  }, {
+                    loader: 'postcss-loader'
+                  }
+                ]
+              }, {
+                test: /\.(less|css)$/,
+                include: /node_modules/,
+                use: [{
+                  loader: 'style-loader'
+                }, {
+                  loader: 'css-loader'
+                }, {
+                  loader: 'less-loader',
+                  options: {
+                    modifyVars: {
+                      'primary-color': '#F5222D',
+                      'border-radius-base': '2px'
+                    },
+                    javascriptEnabled: true
+                  }
+                }]
+              },
+              {
+                test: /\.(scss|css)$/,
+                include: /src/,
+                use: [{
+                  loader: 'style-loader'
+                }, {
+                  loader: 'css-loader'
+                }, {
+                  loader: 'sass-loader'
+                }]
+              },
             {
                 test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
                 exclude: /node_modules/,
@@ -84,32 +122,6 @@ const webpackConfigBase = {
             loaders: [{
                 loader: 'babel?cacheDirectory=true',
             }],
-            //代表共享进程池，即多个 HappyPack 实例都使用同一个共享进程池中的子进程去处理任务，以防止资源占用过多。
-            threadPool: happyThreadPool,
-            //允许 HappyPack 输出日志
-            verbose: true,
-        }),
-        new HappyPack({
-            id: 'antdCss',
-            loaders: [
-                {
-                    loader:'css-loader',
-                    options: {
-                        importLoaders: 1,
-                        sourceMap: true,
-                    },
-                },
-            ],
-        }),
-        new HappyPack({
-            //用id来标识 happypack处理那里类文件
-            id: 'happyStyle',
-            //如何处理  用法和loader 的配置一样
-            loaders: [
-                'css-loader?sourceMap=true',
-                'sass-loader?sourceMap=true',
-                'less-loader?sourceMap=true',
-                ],
             //代表共享进程池，即多个 HappyPack 实例都使用同一个共享进程池中的子进程去处理任务，以防止资源占用过多。
             threadPool: happyThreadPool,
             //允许 HappyPack 输出日志

@@ -43,6 +43,14 @@ const webpackConfigDev = {
         hot: false,
         host: '0.0.0.0',
         port: PORT,
+        proxy: {
+            '/api': {
+                target: 'http://121.40.250.131:9091',
+                pathRewrite: {
+                    '/api':''
+                }
+            }
+        }
     },
 }
 

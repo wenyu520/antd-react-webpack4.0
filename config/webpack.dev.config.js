@@ -26,8 +26,8 @@ const webpackConfigDev = {
             // mapConfig:'http://192.168.0.1/map_config.js',
             // 这里列出要加入html中的js文件
             dlls: [
-                './dll/vendor.dll.js',
-                './dll/redux.dll.js',
+                // './dll/vendor.dll.js',
+                // './dll/redux.dll.js',
             ],
         }),
         new OpenBrowserPlugin({

@@ -2,6 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const ParallelUglifyPlugin = require('webpack-parallel-uglify-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HappyPack = require('happypack')
 const os = require('os')
 const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length })
@@ -49,8 +50,8 @@ const webpackConfigBase = {
                   {
                     loader: 'css-loader',
                     options: {
-                      modules: true,
-                      localIdentName: '[local]-[hash:8]',
+                      modules: true
+                    //   localIdentName: '[local]-[hash:8]',
                     }
                   }, {
                     loader: 'less-loader',
@@ -60,7 +61,11 @@ const webpackConfigBase = {
                       javascriptEnabled: true,
                     }
                   }, {
-                    loader: 'postcss-loader'
+                    loader: 'postcss-loader',
+                    options: {
+                        modules: true,
+                        localIdentName: '[local]-[hash:8]',
+                      }
                   }
                 ]
               }, {
@@ -95,7 +100,7 @@ const webpackConfigBase = {
             {
                 test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
                 exclude: /node_modules/,
-                include: [resolve('../src/images')],
+                include: [resolve('../src/')],
                 loader: 'url',
                 options: {
                     limit: 8192,
@@ -143,15 +148,15 @@ const webpackConfigBase = {
             minChunks: 3,
         }),*/
         // 关联dll拆分出去的依赖
-        new webpack.DllReferencePlugin({
-            manifest: require('../src/dll/vendor.manifest.json'),
-            context: __dirname,
-        }),
-        // 关联dll拆分出去的依赖
-        new webpack.DllReferencePlugin({
-            manifest: require('../src/dll/redux.manifest.json'),
-            context: __dirname,
-        }),
+        // new webpack.DllReferencePlugin({
+        //     manifest: require('../src/dll/vendor.manifest.json'),
+        //     context: __dirname,
+        // }),
+        // // 关联dll拆分出去的依赖
+        // new webpack.DllReferencePlugin({
+        //     manifest: require('../src/dll/redux.manifest.json'),
+        //     context: __dirname,
+        // }),
     ]
 }
 

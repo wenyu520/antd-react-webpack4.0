@@ -1,7 +1,6 @@
 import 'babel-polyfill'
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { DatePicker, Button } from 'antd';
 import { Provider } from 'react-redux'
 import 'antd/dist/antd.less';
 import './styles/reset.scss'

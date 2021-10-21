@@ -7,7 +7,7 @@ export default () => (
     <HashRouter>
         <div id='app'>
             <Switch>
-                <Route path="/login" component={base.login}/>
+                <Route path="/login" component={ base.login }/>
                 <Route path="/register" component={base.notfound}/>
                 {/*如果没有path就每个页面都用这个组件，但是用Switch包住就可以上面没匹配到到才走这个路由*/}
                 {/*<Route component={Dashboard}/>*/}

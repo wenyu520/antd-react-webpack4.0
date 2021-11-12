@@ -1,19 +1,67 @@
 import React, { Component } from 'react'
-import { BrowserRouter, HashRouter, Switch, Redirect, Router, Route } from 'react-router-dom'
+import { HashRouter, Router } from 'react-router-dom'
 
+import UserLayout from "@/layouts/UserLayout";
+import BaseLayout from "@/layouts/BaseLayout";
+import * as user from '@/pages/user' // 基础
 import * as base from '@/pages/base' // 基础
+import notfound from '@/pages/notfound/index'
 
+import { createRoutes } from '@/utils/help';
+const routes = [
+  {
+    path: '/sign',
+    title: '登录',
+    indexRoute: '/sign/login',
+    component: UserLayout,
+    children: [
+      {
+        path: '/sign/login',
+        title: 'Login',
+        component: user.login
+      },
+      {
+        title: '未找到页面',
+        component: notfound
+      }
+    ]
+  },
+  {
+    path: '/',
+    title: '首页',
+    indexRoute: '/home',
+    component: BaseLayout,
+    children: [
+      {
+        path: '/home',
+        title: 'Index',
+        indexRoute: '/home/1',
+        component: base.home,
+        children: [
+          {
+            path: '/home/1',
+            title: 'IndexHome',
+            component: base.home1
+          },
+          {
+            path: '*',
+            title: '未找到页面',
+            to: '/',
+            component: notfound
+          }
+        ]
+      },
+      {
+        path: '*',
+        title: '未找到页面',
+        component: notfound
+      }
+    ]
+  }
+]
+{/* <Route path="/login" component={base.login} /> */ }
 export default () => (
   <HashRouter>
-    <div id='app'>
-      <Switch>
-        <Route path="/login" component={base.login} />
-        <Route path="/home" component={base.home} />
-        <Route path="/register" component={base.notfound} />
-        {/*如果没有path就每个页面都用这个组件，但是用Switch包住就可以上面没匹配到到才走这个路由*/}
-        {/*<Route component={Dashboard}/>*/}
-        <Redirect to="/login" />
-      </Switch>
-    </div>
+    {createRoutes(routes)}
   </HashRouter>
 )

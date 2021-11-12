@@ -9,7 +9,7 @@ class Login extends Component {
   constructor(props) {
     super(props)
     console.log(props);
-    axios.get('/api/galaxy/patent_search_index')
+    // axios.get('/api/galaxy/patent_search_index')
   }
   submitSearch(e) {
     e.preventDefault();
@@ -19,7 +19,7 @@ class Login extends Component {
         const { username, password } = values;
         if (username === 'admin' && password === 'admin') {
           message.success('登录成功');
-          this.props.history.push('/home')
+          this.props.history.push('/')
         } else {
           message.warning('用户名【admin】,密码【damin】');
         }

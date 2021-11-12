@@ -1,6 +1,5 @@
 
-import login from './login/index'
-import home from './home/index'
-import notfound from './notfound'
+import home from './home/index';
+import home1 from './home/home1/index';
 
-export { login, home, notfound }
+export { home, home1 }
